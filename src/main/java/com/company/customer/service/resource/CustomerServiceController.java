@@ -80,6 +80,7 @@ public class CustomerServiceController {
    
     @RequestMapping(value = "/create/", method = RequestMethod.POST)
     public ResponseEntity<?> createUser(@RequestBody Customer customer, UriComponentsBuilder ucBuilder) {
+    	System.out.println(customer.getSsn());
         if (customerManager.getCustomerBySSN(customer.getSsn()) != null) {
             return new ResponseEntity(new CustomErrorType("Unable to create. Customer with ssn " + customer.getSsn() + " already exist."),HttpStatus.CONFLICT);
         }

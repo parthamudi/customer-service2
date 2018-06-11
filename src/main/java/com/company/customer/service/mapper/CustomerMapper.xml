@@ -10,8 +10,8 @@
 <result property = "dob" column = "dob"/>
 <result property = "gender" column = "gender"/>
 </resultMap>
-
-<select id="findAll" resultMap="customer">
+<cache type="org.mybatis.caches.ignite.IgniteCacheAdapter" />
+<select id="findAll" resultMap="customer" useCache="true">
 select * from customer
 </select>
 
@@ -28,7 +28,7 @@ DELETE FROM customer WHERE ssn = #{ssn}
 </delete>
 
 <insert id="insert" >
-insert into customer(ssn,first_name,last_name,dob,gender) values(#{ssn},#{first_name},#{last_name},#{dob},#{gender})
+insert into customer(ssn,first_name,last_name,dob,gender) values(#{customer.ssn},#{customer.first_name},#{customer.last_name},#{customer.dob},#{customer.gender})
 </insert>
 
 </mapper>
