@@ -1,11 +1,20 @@
 package com.company.customer.service.model;
-
+import javax.persistence.Entity;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+@Entity
 public class Customer {
 
+	  @NotNull
+	  @Size(min=3, message="SSN should have atleast 3 characters")
 	private Integer ssn;
+	  
 	private String first_name;
+	
     private String last_name;
+    
     private String dob;
+    
     private Gender gender;
    
     public Integer getSsn() {

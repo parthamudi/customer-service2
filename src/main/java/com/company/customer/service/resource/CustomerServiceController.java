@@ -2,6 +2,8 @@ package com.company.customer.service.resource;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -79,10 +81,11 @@ public class CustomerServiceController {
     }
    
     @RequestMapping(value = "/create/", method = RequestMethod.POST)
-    public ResponseEntity<?> createUser(@RequestBody Customer customer, UriComponentsBuilder ucBuilder) {
+    public ResponseEntity<?> createUser(@Valid @RequestBody Customer customer, UriComponentsBuilder ucBuilder) {
     	System.out.println(customer.getSsn());
         if (customerManager.getCustomerBySSN(customer.getSsn()) != null) {
-            return new ResponseEntity(new CustomErrorType("Unable to create. Customer with ssn " + customer.getSsn() + " already exist."),HttpStatus.CONFLICT);
+        	customerManager.updateBySSN(customer);
+            return new ResponseEntity(new CustomErrorType(" Customer with ssn " + customer.getSsn() + " updated."),HttpStatus.CONFLICT);
         }
         customerManager.insert(customer);
  

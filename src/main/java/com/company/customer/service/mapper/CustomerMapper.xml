@@ -10,25 +10,33 @@
 <result property = "dob" column = "dob"/>
 <result property = "gender" column = "gender"/>
 </resultMap>
-<cache type="org.mybatis.caches.ignite.IgniteCacheAdapter" />
+<cache type="org.mybatis.caches.ignite.IgniteCacheAdapter" flushInterval="200" />
 <select id="findAll" resultMap="customer" useCache="true">
-select * from customer
+select ssn,dirst_name,last_name,dob,gender from customer
 </select>
 
 <select id="getCustomerBySSN" resultMap="customer">
-SELECT * FROM customer WHERE ssn = #{ssn}
+SELECT ssn,dirst_name,last_name,dob,gender FROM customer WHERE ssn = #{ssn}
 </select>
 
 <update id="updateBySSN" >
-UPDATE customer SET first_name=#{first_name},last_name=#{last_name},dob=#{dob},gender=#{gender} WHERE ssn = #{ssn}
+UPDATE 
+ 		customer SET first_name=#{customer.first_name},
+ 		last_name=#{customer.last_name},dob=#{customer.dob},
+ 		gender=#{customer.gender} 
+WHERE   ssn = #{customer.ssn}
 </update>
 
 <delete id="deleteBySSN">
-DELETE FROM customer WHERE ssn = #{ssn}
+DELETE 
+		FROM customer WHERE ssn = #{ssn}
 </delete>
 
 <insert id="insert" >
-insert into customer(ssn,first_name,last_name,dob,gender) values(#{customer.ssn},#{customer.first_name},#{customer.last_name},#{customer.dob},#{customer.gender})
+insert into 
+			customer(ssn,first_name,last_name,dob,gender) 
+			values(#{customer.ssn},#{customer.first_name},
+			#{customer.last_name},#{customer.dob},#{customer.gender})
 </insert>
 
 </mapper>
